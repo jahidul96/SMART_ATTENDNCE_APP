@@ -21,8 +21,6 @@ export const loadText = {
 
 const CourseList = ({ navigation }) => {
   const [courses, setCourses] = useState([]);
-  const [showdetails, setShowDetails] = useState(false);
-  const [oneDetails, setOneDetails] = useState(null);
 
   const addCourse = () => {
     navigation.navigate("addcourse");
@@ -40,8 +38,11 @@ const CourseList = ({ navigation }) => {
     });
   };
 
-  const getSinglelist = (d) => {
-    setOneDetails(d);
+  const getSinglelist = (data) => {
+    navigation.navigate("details", {
+      data,
+      from: "course",
+    });
   };
 
   useEffect(() => {
@@ -63,12 +64,7 @@ const CourseList = ({ navigation }) => {
           <Text style={loadText}>No data...</Text>
         ) : (
           courses.map((d, i) => (
-            <T_List
-              key={i}
-              value={d}
-              getSinglelist={getSinglelist}
-              setShowDetails={setShowDetails}
-            />
+            <T_List key={i} value={d} getSinglelist={getSinglelist} />
           ))
         )}
       </ScrollView>
@@ -76,16 +72,6 @@ const CourseList = ({ navigation }) => {
       <View style={[btnWrapperStyle, extrapadding]}>
         <ButtonComp text="Add Course" bgColor={bgColor} click={addCourse} />
       </View>
-
-      {showdetails && (
-        <SelectPositionComp
-          setShowModel={setShowDetails}
-          text="Course Details"
-          singleData={oneDetails}
-          setShowDetails={setShowDetails}
-          extrastyle={detailsmodelStyle}
-        />
-      )}
     </View>
   );
 };

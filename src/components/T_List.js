@@ -39,14 +39,8 @@ export const text = {
   fontFamily: "Helvetica-Bold",
 };
 
-export const T_List = ({ value, getSinglelist, setShowDetails }) => (
-  <TouchableOpacity
-    style={slistContainer}
-    onPress={() => {
-      getSinglelist(value);
-      setShowDetails(true);
-    }}
-  >
+export const T_List = ({ value, getSinglelist }) => (
+  <TouchableOpacity style={slistContainer} onPress={() => getSinglelist(value)}>
     {value.name && <Text style={text}>name : {value.name}</Text>}
 
     {value.course && value.batch && value.position ? (

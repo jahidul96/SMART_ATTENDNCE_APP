@@ -174,7 +174,6 @@ const StudentInfo = ({ data, onPress, courseStudents }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [allMyPresent, setAllMyPresent] = useState([]);
 
-  // studentVal.presentDate.toDate().toLocaleDateString()
   const seeInfo = (data) => {
     // console.log("student data", data);
     getSingleStudent(setStudentInfo, data.studentMail);
@@ -268,6 +267,9 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
   const [tabname, setTabName] = useState(tabData[0].name);
   // console.log(allMyPresent);
 
+  const isRequest = allMyPresent.filter((pdate) => pdate.present == "present");
+  // console.log(isRequest.length);
+
   return (
     <View style={styles.modelContainer}>
       <View style={styles.popupModelStyle}>
@@ -310,13 +312,19 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
                 </View>
               ) : (
                 <View>
-                  {allMyPresent.map((pdate, i) => (
-                    <View key={i}>
-                      <Text style={styles.infoText}>
-                        {pdate?.presentDate?.toDate().toLocaleDateString()}
-                      </Text>
-                    </View>
-                  ))}
+                  {isRequest.length > 0 ? (
+                    allMyPresent.map((pdate, i) => (
+                      <View key={i}>
+                        <Text style={styles.infoText}>
+                          {pdate?.presentDate?.toDate().toLocaleDateString()}
+                        </Text>
+                      </View>
+                    ))
+                  ) : (
+                    <Text style={styles.infoText}>
+                      Mark To see Present Dates
+                    </Text>
+                  )}
                 </View>
               )}
             </View>

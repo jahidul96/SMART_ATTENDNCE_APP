@@ -21,6 +21,7 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState, useCallback } from "react";
 import TeacherSelect from "./src/pages/TeacherSelect";
 import SelectBatch from "./src/pages/SelectBatch";
+import Details from "./src/pages/Details";
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +85,10 @@ export default function App() {
         <Stack.Screen name="teacherselect" component={TeacherSelect} />
         <Stack.Screen name="teachermarkpresentpage" component={MarkAt} />
         <Stack.Screen name="seeallStudent" component={StudentDatabase} />
+
+        {/* student/teacher/couser details */}
+
+        <Stack.Screen name="details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>
   );

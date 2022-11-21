@@ -39,6 +39,7 @@ export const getAllTeacher = async (setAllTeacher) => {
   });
   setAllTeacher(teachers);
 };
+
 export const getSingleStudent = async (setStudent, email) => {
   const q = query(collection(db, "students"), where("email", "==", email));
   onSnapshot(q, (querySnapshot) => {

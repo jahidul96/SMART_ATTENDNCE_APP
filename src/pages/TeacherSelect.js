@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { ButtonComp, TextTitle } from "../components/Reuse";
 import { selectStyle } from "../components/similarstyles/SimillarStyles";
 import { COLORS } from "../styles/Colors";
-import { Course } from "./StudentPresent";
+
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import {
@@ -22,6 +22,7 @@ import {
   collection,
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
+import { Course } from "../components/CourseComp";
 
 const bgColor = {
   backgroundColor: COLORS.brown,
@@ -37,25 +38,25 @@ const btnTextStyle = {
   fontFamily: "Helvetica-Bold",
 };
 
-const TeacherSelect = ({ navigation, route }) => {
+const TeacherSelect = ({ navigation }) => {
   const [mycourses, setMyCourses] = useState([]);
   const [courseId, setCourseId] = useState("0");
-  const [selectedCourse, setSelectedCourse] = useState("");
-
   const validuser = auth?.currentUser?.email;
 
-  const selectCourse = (title, id) => {
-    setSelectedCourse(title);
+  const seeAttendence = async (title, id) => {
     setCourseId(id);
-  };
-
-  const seeAttendence = async () => {
-    const ref = doc(db, "courses", courseId);
+    const ref = doc(db, "courses", id);
     const docSnap = await getDoc(ref);
     let students;
     if (docSnap.exists()) {
       students = docSnap.data();
-      navigation.navigate("seeallStudent", { courseId, selectedCourse });
+
+      setTimeout(() => {
+        navigation.navigate("seeallStudent", {
+          courseId: id,
+          selectedCourse: title,
+        });
+      }, 1500);
     } else {
       console.log("No such document!");
     }
@@ -98,19 +99,22 @@ const TeacherSelect = ({ navigation, route }) => {
             <Course
               key={data.id}
               data={data}
-              select={selectCourse}
+              // select={selectCourse}
               someStyle={data.id == courseId ? styles.bgRed : ""}
+              onPress={seeAttendence}
             />
           ))
         ) : (
           <Text style={styles.emptyText}>No courses available</Text>
         )}
-        <ButtonComp
+
+        {/* <ButtonComp
           text="See Attendence"
           bgColor={bgColor}
           btnTextStyle={btnTextStyle}
           click={seeAttendence}
-        />
+        /> */}
+
         <ButtonComp
           text="Logout"
           bgColor={bgColor}

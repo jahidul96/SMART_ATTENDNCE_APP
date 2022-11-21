@@ -6,7 +6,6 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { loadText } from "./CourseList";
 import {
-  detailsmodelStyle,
   extrapadding,
   root,
   topStyle,
@@ -17,8 +16,6 @@ import { COLORS } from "../styles/Colors";
 
 const TeacherList = ({ navigation }) => {
   const [allteacher, setAllTeacher] = useState([]);
-  const [showdetails, setShowDetails] = useState(false);
-  const [oneDetails, setOneDetails] = useState(null);
 
   const addTeacher = () => {
     navigation.navigate("addteacher");
@@ -37,8 +34,12 @@ const TeacherList = ({ navigation }) => {
     });
   };
 
-  const getSinglelist = (d) => {
-    setOneDetails(d);
+  const getSinglelist = (data) => {
+    // console.log("teacher list", data);
+    navigation.navigate("details", {
+      data,
+      from: "teacher",
+    });
   };
 
   useEffect(() => {
@@ -60,12 +61,7 @@ const TeacherList = ({ navigation }) => {
           <Text style={loadText}>No data</Text>
         ) : (
           allteacher.map((d, i) => (
-            <T_List
-              key={i}
-              value={d}
-              getSinglelist={getSinglelist}
-              setShowDetails={setShowDetails}
-            />
+            <T_List key={i} value={d} getSinglelist={getSinglelist} />
           ))
         )}
       </ScrollView>
@@ -73,16 +69,6 @@ const TeacherList = ({ navigation }) => {
       <View style={[btnWrapperStyle, extrapadding]}>
         <ButtonComp text="Add Teacher" click={addTeacher} bgColor={bgColor} />
       </View>
-
-      {showdetails && (
-        <SelectPositionComp
-          setShowModel={setShowDetails}
-          text="Teacher Details"
-          singleData={oneDetails}
-          setShowDetails={setShowDetails}
-          extrastyle={detailsmodelStyle}
-        />
-      )}
     </View>
   );
 };

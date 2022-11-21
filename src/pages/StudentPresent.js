@@ -23,6 +23,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
 import { getMatchCourses, updateStudentStatus } from "../firebase/FbFirestore";
+import { Course } from "../components/CourseComp";
 
 const StudentPresent = ({ route, navigation }) => {
   const { studentBatch, studentcourse } = route.params;
@@ -99,12 +100,6 @@ const StudentPresent = ({ route, navigation }) => {
         .catch((err) => {
           Alert.alert(err.message);
         });
-
-      // navigation.navigate("studentattendence", {
-      // 	selectedCourse,
-      // 	courseId,
-      // 	alreadyPresentToday: true,
-      // });
     }
   };
 
@@ -135,7 +130,8 @@ const StudentPresent = ({ route, navigation }) => {
               key={data.id}
               data={data}
               select={selectCourse}
-              someStyle={data.id == courseId ? styles.extraStyle : ""}
+              someStyle={data.id == courseId && styles.extraStyle}
+              student
             />
           ))
         ) : (
@@ -156,21 +152,6 @@ const StudentPresent = ({ route, navigation }) => {
 };
 
 export default StudentPresent;
-
-export const Course = ({ data, select, someStyle }) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.6}
-      style={styles.courseContainer}
-      onPress={() => {
-        select(data.value.courseName, data.id);
-      }}
-    >
-      <Text style={styles.courseTitle}>{data.value.courseName}</Text>
-      <View style={[styles.rightView, someStyle]}></View>
-    </TouchableOpacity>
-  );
-};
 
 const styles = StyleSheet.create({
   root: {
