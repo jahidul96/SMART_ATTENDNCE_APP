@@ -312,19 +312,15 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
                 </View>
               ) : (
                 <View>
-                  {isRequest.length > 0 ? (
-                    allMyPresent.map((pdate, i) => (
-                      <View key={i}>
+                  {allMyPresent.map((pdate, i) => (
+                    <View key={i}>
+                      {pdate.present == "request" ? null : (
                         <Text style={styles.infoText}>
                           {pdate?.presentDate?.toDate().toLocaleDateString()}
                         </Text>
-                      </View>
-                    ))
-                  ) : (
-                    <Text style={styles.infoText}>
-                      Mark To see Present Dates
-                    </Text>
-                  )}
+                      )}
+                    </View>
+                  ))}
                 </View>
               )}
             </View>
