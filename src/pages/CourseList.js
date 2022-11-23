@@ -13,6 +13,7 @@ import {
   wrapper,
 } from "../components/T_List";
 import { COLORS } from "../styles/Colors";
+import { getALLData } from "../firebase/FbFirestore";
 
 export const loadText = {
   textAlign: "center",
@@ -25,28 +26,30 @@ const CourseList = ({ navigation }) => {
   const addCourse = () => {
     navigation.navigate("addcourse");
   };
-  const getCourses = () => {
-    const cRef = collection(db, "courses");
-    const q = query(cRef, orderBy("createAt", "desc"));
+  // const getCourses = () => {
+  //   const cRef = collection(db, "courses");
+  //   const q = query(cRef, orderBy("createAt", "desc"));
 
-    onSnapshot(q, (querySnapshot) => {
-      let crs = [];
-      querySnapshot.forEach((doc) => {
-        crs.push(doc.data());
-      });
-      setCourses(crs);
-    });
-  };
+  //   onSnapshot(q, (querySnapshot) => {
+  //     let crs = [];
+  //     querySnapshot.forEach((doc) => {
+  //       crs.push(doc.data());
+  //     });
+  //     setCourses(crs);
+  //   });
+  // };
 
-  const getSinglelist = (data) => {
+  const getSinglelist = (data, docId) => {
     navigation.navigate("details", {
       data,
       from: "course",
+      docId,
     });
   };
 
   useEffect(() => {
-    getCourses();
+    getALLData(setCourses, "courses");
+    // getCourses();
     return () => {};
   }, []);
 
@@ -63,8 +66,13 @@ const CourseList = ({ navigation }) => {
         {courses.length == 0 ? (
           <Text style={loadText}>No data...</Text>
         ) : (
-          courses.map((d, i) => (
-            <T_List key={i} value={d} getSinglelist={getSinglelist} />
+          courses.map((data, i) => (
+            <T_List
+              key={i}
+              value={data.value}
+              id={data.id}
+              getSinglelist={getSinglelist}
+            />
           ))
         )}
       </ScrollView>

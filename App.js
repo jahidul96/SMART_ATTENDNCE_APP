@@ -22,6 +22,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import TeacherSelect from "./src/pages/TeacherSelect";
 import SelectBatch from "./src/pages/SelectBatch";
 import Details from "./src/pages/Details";
+import Editpage from "./src/pages/Editpage";
 
 const Stack = createNativeStackNavigator();
 
@@ -87,8 +88,8 @@ export default function App() {
         <Stack.Screen name="seeallStudent" component={StudentDatabase} />
 
         {/* student/teacher/couser details */}
-
         <Stack.Screen name="details" component={Details} />
+        <Stack.Screen name="editpage" component={Editpage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -50,13 +50,10 @@ const TeacherSelect = ({ navigation }) => {
     let students;
     if (docSnap.exists()) {
       students = docSnap.data();
-
-      setTimeout(() => {
-        navigation.navigate("seeallStudent", {
-          courseId: id,
-          selectedCourse: title,
-        });
-      }, 1500);
+      navigation.navigate("seeallStudent", {
+        courseId: id,
+        selectedCourse: title,
+      });
     } else {
       console.log("No such document!");
     }

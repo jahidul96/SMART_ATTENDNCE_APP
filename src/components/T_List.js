@@ -39,34 +39,40 @@ export const text = {
   fontFamily: "Helvetica-Bold",
 };
 
-export const T_List = ({ value, getSinglelist }) => (
-  <TouchableOpacity style={slistContainer} onPress={() => getSinglelist(value)}>
-    {value.name && <Text style={text}>name : {value.name}</Text>}
+export const T_List = ({ value, getSinglelist, id }) => {
+  // console.log("this id id", id);
+  return (
+    <TouchableOpacity
+      style={slistContainer}
+      onPress={() => getSinglelist(value, id)}
+    >
+      {value.name && <Text style={text}>name : {value.name}</Text>}
 
-    {value.course && value.batch && value.position ? (
-      <Text style={text}>course : {value.course}</Text>
-    ) : null}
+      {value.course && value.batch && value.position ? (
+        <Text style={text}>course : {value.course}</Text>
+      ) : null}
 
-    {value.teacher && (
-      <Text style={[teachername, text]}>teacher : {value.teacher}</Text>
-    )}
+      {value.teacher && (
+        <Text style={[teachername, text]}>teacher : {value.teacher}</Text>
+      )}
 
-    {value.email && (
-      <Text style={[teachername, text]}>email : {value.email}</Text>
-    )}
+      {value.email && (
+        <Text style={[teachername, text]}>email : {value.email}</Text>
+      )}
 
-    {value.position && <Text style={text}>position : {value.position}</Text>}
-    {value.teacheremail && (
-      <Text style={text}>teacherEmail : {value.teacheremail}</Text>
-    )}
+      {value.position && <Text style={text}>position : {value.position}</Text>}
+      {value.teacheremail && (
+        <Text style={text}>teacherEmail : {value.teacheremail}</Text>
+      )}
 
-    {value.id || value.course || value.code ? (
-      <View style={codeandCourse}>
-        {value.course && <Text style={text}>course : {value.course}, </Text>}
-        {value.id && <Text style={text}> courseId :{value.id}</Text>}
-        {value.code && <Text style={text}> CourseCode :{value.code}</Text>}
-        <Text style={[course, text]}>{value.coures}</Text>
-      </View>
-    ) : null}
-  </TouchableOpacity>
-);
+      {value.id || value.course || value.code ? (
+        <View style={codeandCourse}>
+          {value.course && <Text style={text}>course : {value.course}, </Text>}
+          {value.id && <Text style={text}> courseId :{value.id}</Text>}
+          {value.code && <Text style={text}> CourseCode :{value.code}</Text>}
+          <Text style={[course, text]}>{value.coures}</Text>
+        </View>
+      ) : null}
+    </TouchableOpacity>
+  );
+};

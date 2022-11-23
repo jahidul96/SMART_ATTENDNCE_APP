@@ -14,6 +14,7 @@ import {
   T_List,
   wrapper,
 } from "../components/T_List";
+import { getALLData } from "../firebase/FbFirestore";
 
 export const btnWrapperStyle = {
   paddingVertical: 20,
@@ -40,28 +41,30 @@ const StudentList = ({ navigation }) => {
     navigation.navigate("addstudent");
   };
 
-  const getStudents = () => {
-    const cRef = collection(db, "students");
-    const q = query(cRef, orderBy("createAt", "desc"));
+  // const getStudents = () => {
+  //   const cRef = collection(db, "students");
+  //   const q = query(cRef, orderBy("createAt", "desc"));
 
-    onSnapshot(q, (querySnapshot) => {
-      let sts = [];
-      querySnapshot.forEach((doc) => {
-        sts.push(doc.data());
-      });
-      setStudents(sts);
-    });
-  };
+  //   onSnapshot(q, (querySnapshot) => {
+  //     let sts = [];
+  //     querySnapshot.forEach((doc) => {
+  //       sts.push(doc.data());
+  //     });
+  //     setStudents(sts);
+  //   });
+  // };
 
-  const getSinglelist = (data) => {
+  const getSinglelist = (data, docId) => {
     navigation.navigate("details", {
       data,
       from: "student",
+      docId,
     });
   };
 
   useEffect(() => {
-    getStudents();
+    getALLData(setStudents, "students");
+    // getStudents();
     return () => {};
   }, []);
   return (
@@ -77,8 +80,13 @@ const StudentList = ({ navigation }) => {
         {students.length == 0 ? (
           <Text style={loadText}>No data</Text>
         ) : (
-          students.map((d, i) => (
-            <T_List key={i} value={d} getSinglelist={getSinglelist} />
+          students.map((data, i) => (
+            <T_List
+              key={i}
+              value={data.value}
+              id={data.id}
+              getSinglelist={getSinglelist}
+            />
           ))
         )}
       </ScrollView>

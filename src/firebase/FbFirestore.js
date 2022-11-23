@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -70,5 +71,18 @@ export const getMatchCourses = (studentBatch, studentcourse, setMyCourses) => {
       stdCourse.push({ value: doc.data(), id: doc.id });
     });
     setMyCourses(stdCourse);
+  });
+};
+
+export const getALLData = (setValue, dbName) => {
+  const cRef = collection(db, dbName);
+  const q = query(cRef, orderBy("createAt", "desc"));
+
+  onSnapshot(q, (querySnapshot) => {
+    let data = [];
+    querySnapshot.forEach((doc) => {
+      data.push({ value: doc.data(), id: doc.id });
+    });
+    setValue(data);
   });
 };

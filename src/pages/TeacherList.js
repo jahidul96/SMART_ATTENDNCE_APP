@@ -13,6 +13,7 @@ import {
   wrapper,
 } from "../components/T_List";
 import { COLORS } from "../styles/Colors";
+import { getALLData } from "../firebase/FbFirestore";
 
 const TeacherList = ({ navigation }) => {
   const [allteacher, setAllTeacher] = useState([]);
@@ -21,29 +22,31 @@ const TeacherList = ({ navigation }) => {
     navigation.navigate("addteacher");
   };
 
-  const getallTeachers = () => {
-    const cRef = collection(db, "teachers");
-    const q = query(cRef, orderBy("createAt", "desc"));
+  // const getallTeachers = () => {
+  //   const cRef = collection(db, "teachers");
+  //   const q = query(cRef, orderBy("createAt", "desc"));
 
-    onSnapshot(q, (querySnapshot) => {
-      let trs = [];
-      querySnapshot.forEach((doc) => {
-        trs.push(doc.data());
-      });
-      setAllTeacher(trs);
-    });
-  };
+  //   onSnapshot(q, (querySnapshot) => {
+  //     let trs = [];
+  //     querySnapshot.forEach((doc) => {
+  //       trs.push(doc.data());
+  //     });
+  //     setAllTeacher(trs);
+  //   });
+  // };
 
-  const getSinglelist = (data) => {
+  const getSinglelist = (data, docId) => {
     // console.log("teacher list", data);
     navigation.navigate("details", {
       data,
       from: "teacher",
+      docId,
     });
   };
 
   useEffect(() => {
-    getallTeachers();
+    getALLData(setAllTeacher, "teachers");
+    // getallTeachers();
     return () => {};
   }, []);
 
@@ -60,8 +63,13 @@ const TeacherList = ({ navigation }) => {
         {allteacher.length == 0 ? (
           <Text style={loadText}>No data</Text>
         ) : (
-          allteacher.map((d, i) => (
-            <T_List key={i} value={d} getSinglelist={getSinglelist} />
+          allteacher.map((data, i) => (
+            <T_List
+              key={i}
+              value={data.value}
+              id={data.id}
+              getSinglelist={getSinglelist}
+            />
           ))
         )}
       </ScrollView>
