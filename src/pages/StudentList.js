@@ -1,13 +1,10 @@
-import { View, ScrollView, Text, StatusBar } from "react-native";
+import { View, ScrollView, Text, StatusBar, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ButtonComp, SelectPositionComp, TopBar } from "../components/Reuse";
+import { ButtonComp, Input, TopBar } from "../components/Reuse";
 import { COLORS } from "../styles/Colors";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { db } from "../firebase/firebase";
 
 import { loadText } from "./CourseList";
 import {
-  detailsmodelStyle,
   extrapadding,
   root,
   topStyle,
@@ -36,23 +33,11 @@ export const bgColor = {
 
 const StudentList = ({ navigation }) => {
   const [students, setStudents] = useState([]);
+  const [inputVal, setInputVal] = useState("");
 
   const addStudent = () => {
     navigation.navigate("addstudent");
   };
-
-  // const getStudents = () => {
-  //   const cRef = collection(db, "students");
-  //   const q = query(cRef, orderBy("createAt", "desc"));
-
-  //   onSnapshot(q, (querySnapshot) => {
-  //     let sts = [];
-  //     querySnapshot.forEach((doc) => {
-  //       sts.push(doc.data());
-  //     });
-  //     setStudents(sts);
-  //   });
-  // };
 
   const getSinglelist = (data, docId) => {
     navigation.navigate("details", {
@@ -64,7 +49,7 @@ const StudentList = ({ navigation }) => {
 
   useEffect(() => {
     getALLData(setStudents, "students");
-    // getStudents();
+
     return () => {};
   }, []);
   return (
@@ -73,6 +58,17 @@ const StudentList = ({ navigation }) => {
       <View style={topStyle}>
         <TopBar navigation={navigation} text="Student List" />
       </View>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          height: 65,
+          borderBottomColor: COLORS.grayColor,
+          borderBottomWidth: 1,
+          justifyContent: "center",
+        }}
+      >
+        <Input placeholder={"Search"} setValue={setInputVal} />
+      </View>
       <ScrollView
         contentContainerStyle={wrapper}
         showsVerticalScrollIndicator={false}
@@ -80,14 +76,24 @@ const StudentList = ({ navigation }) => {
         {students.length == 0 ? (
           <Text style={loadText}>No data</Text>
         ) : (
-          students.map((data, i) => (
-            <T_List
-              key={i}
-              value={data.value}
-              id={data.id}
-              getSinglelist={getSinglelist}
-            />
-          ))
+          students
+            .filter((data) => {
+              if (inputVal == "") {
+                return data;
+              } else if (
+                data.value.name.toLowerCase().includes(inputVal.toLowerCase())
+              ) {
+                return data;
+              }
+            })
+            .map((data, i) => (
+              <T_List
+                key={i}
+                value={data.value}
+                id={data.id}
+                getSinglelist={getSinglelist}
+              />
+            ))
         )}
       </ScrollView>
 
@@ -99,3 +105,5 @@ const StudentList = ({ navigation }) => {
 };
 
 export default StudentList;
+
+const styles = StyleSheet.create({});

@@ -1,7 +1,12 @@
 import { View, ScrollView, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import { bgColor, btnWrapperStyle } from "./StudentList";
-import { ButtonComp, SelectPositionComp, TopBar } from "../components/Reuse";
+import {
+  ButtonComp,
+  Input,
+  SelectPositionComp,
+  TopBar,
+} from "../components/Reuse";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import {
@@ -22,22 +27,11 @@ export const loadText = {
 
 const CourseList = ({ navigation }) => {
   const [courses, setCourses] = useState([]);
+  const [inputVal, setInputVal] = useState("");
 
   const addCourse = () => {
     navigation.navigate("addcourse");
   };
-  // const getCourses = () => {
-  //   const cRef = collection(db, "courses");
-  //   const q = query(cRef, orderBy("createAt", "desc"));
-
-  //   onSnapshot(q, (querySnapshot) => {
-  //     let crs = [];
-  //     querySnapshot.forEach((doc) => {
-  //       crs.push(doc.data());
-  //     });
-  //     setCourses(crs);
-  //   });
-  // };
 
   const getSinglelist = (data, docId) => {
     navigation.navigate("details", {
@@ -49,7 +43,7 @@ const CourseList = ({ navigation }) => {
 
   useEffect(() => {
     getALLData(setCourses, "courses");
-    // getCourses();
+
     return () => {};
   }, []);
 
@@ -59,11 +53,46 @@ const CourseList = ({ navigation }) => {
       <View style={topStyle}>
         <TopBar navigation={navigation} text="Course List" />
       </View>
+
+      <View
+        style={{
+          paddingHorizontal: 20,
+          height: 65,
+          borderBottomColor: COLORS.grayColor,
+          borderBottomWidth: 1,
+          justifyContent: "center",
+        }}
+      >
+        <Input placeholder={"Search"} setValue={setInputVal} />
+      </View>
       <ScrollView
         contentContainerStyle={wrapper}
         showsVerticalScrollIndicator={false}
       >
         {courses.length == 0 ? (
+          <Text style={loadText}>No data</Text>
+        ) : (
+          courses
+            .filter((data) => {
+              if (inputVal == "") {
+                return data;
+              } else if (
+                data.value.course.toLowerCase().includes(inputVal.toLowerCase())
+              ) {
+                return data;
+              }
+            })
+            .map((data, i) => (
+              <T_List
+                key={i}
+                value={data.value}
+                id={data.id}
+                getSinglelist={getSinglelist}
+              />
+            ))
+        )}
+
+        {/* {courses.length == 0 ? (
           <Text style={loadText}>No data...</Text>
         ) : (
           courses.map((data, i) => (
@@ -74,7 +103,7 @@ const CourseList = ({ navigation }) => {
               getSinglelist={getSinglelist}
             />
           ))
-        )}
+        )} */}
       </ScrollView>
 
       <View style={[btnWrapperStyle, extrapadding]}>
