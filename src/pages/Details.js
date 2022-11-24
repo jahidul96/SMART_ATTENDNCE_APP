@@ -23,8 +23,8 @@ const Details = ({ route, navigation }) => {
   const { data, from, docId } = route.params;
 
   // console.log(from);
-  // console.log("data", data);
-  // console.log("docId", docId);
+  console.log("data", data);
+  // console.log("docId", docId;
 
   // delete data functionality
   const deleteData = async () => {

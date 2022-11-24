@@ -63,7 +63,7 @@ const CourseList = ({ navigation }) => {
           justifyContent: "center",
         }}
       >
-        <Input placeholder={"Search"} setValue={setInputVal} />
+        <Input placeholder={"Search by course name"} setValue={setInputVal} />
       </View>
       <ScrollView
         contentContainerStyle={wrapper}
@@ -77,7 +77,9 @@ const CourseList = ({ navigation }) => {
               if (inputVal == "") {
                 return data;
               } else if (
-                data.value.course.toLowerCase().includes(inputVal.toLowerCase())
+                data.value.courseName
+                  .toLowerCase()
+                  .includes(inputVal.toLowerCase())
               ) {
                 return data;
               }
@@ -91,19 +93,6 @@ const CourseList = ({ navigation }) => {
               />
             ))
         )}
-
-        {/* {courses.length == 0 ? (
-          <Text style={loadText}>No data...</Text>
-        ) : (
-          courses.map((data, i) => (
-            <T_List
-              key={i}
-              value={data.value}
-              id={data.id}
-              getSinglelist={getSinglelist}
-            />
-          ))
-        )} */}
       </ScrollView>
 
       <View style={[btnWrapperStyle, extrapadding]}>

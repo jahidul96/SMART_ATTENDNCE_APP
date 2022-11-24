@@ -67,7 +67,7 @@ const StudentList = ({ navigation }) => {
           justifyContent: "center",
         }}
       >
-        <Input placeholder={"Search"} setValue={setInputVal} />
+        <Input placeholder={"Search by name!"} setValue={setInputVal} />
       </View>
       <ScrollView
         contentContainerStyle={wrapper}

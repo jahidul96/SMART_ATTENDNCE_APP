@@ -73,6 +73,10 @@ export const T_List = ({ value, getSinglelist, id }) => {
           <Text style={[course, text]}>{value.coures}</Text>
         </View>
       ) : null}
+
+      {value.courseName && (
+        <Text style={text}>CourseName : {value.courseName}</Text>
+      )}
     </TouchableOpacity>
   );
 };
