@@ -149,8 +149,8 @@ const StudentDatabase = ({ route, navigation }) => {
         </View>
 
         <View style={{ marginTop: 10 }}>
-          {NotMulipleShowStudents.length > 0 ? (
-            NotMulipleShowStudents.map((data, i) => (
+          {NotMulipleShowStudents?.length > 0 ? (
+            NotMulipleShowStudents?.map((data, i) => (
               <StudentInfo
                 key={i}
                 data={data}
@@ -178,7 +178,7 @@ const StudentInfo = ({ data, onPress, courseStudents }) => {
     // console.log("student data", data);
     getSingleStudent(setStudentInfo, data.studentMail);
 
-    let clickedStudent = courseStudents.filter(
+    let clickedStudent = courseStudents?.filter(
       (allStd) => allStd.studentMail == data.studentMail
     );
 
@@ -208,7 +208,7 @@ const StudentInfo = ({ data, onPress, courseStudents }) => {
         style={[
           styles.studentIdView,
           styles.studentIdViewStyle2,
-          data.present == "present"
+          data?.present == "present"
             ? { backgroundColor: COLORS.lightBlue }
             : { backgroundColor: COLORS.grayColor },
         ]}
@@ -223,7 +223,7 @@ const StudentInfo = ({ data, onPress, courseStudents }) => {
             style={[
               styles.studentIdView,
               styles.mark,
-              data.present == "present"
+              data?.present == "present"
                 ? { backgroundColor: COLORS.grayColor }
                 : "",
             ]}
@@ -240,7 +240,7 @@ const StudentInfo = ({ data, onPress, courseStudents }) => {
             style={[
               styles.studentIdView,
               styles.mark,
-              data.present == "present"
+              data?.present == "present"
                 ? { backgroundColor: COLORS.grayColor }
                 : "",
             ]}
@@ -267,7 +267,9 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
   const [tabname, setTabName] = useState(tabData[0].name);
   // console.log(allMyPresent);
 
-  const isRequest = allMyPresent.filter((pdate) => pdate.present == "present");
+  const isRequest = allMyPresent?.filter(
+    (pdate) => pdate?.present == "present"
+  );
   // console.log(isRequest.length);
 
   return (
@@ -282,7 +284,7 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
             }}
           >
             <View style={styles.nameContainer}>
-              {tabData.map((tab) => (
+              {tabData?.map((tab) => (
                 <TouchableOpacity
                   key={tab.id}
                   onPress={() => setTabName(tab.name)}
@@ -301,10 +303,10 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
             >
               {tabname == "Student_Details" ? (
                 <View>
-                  <Info label="Name" text={studentInfo.name} />
-                  <Info label="Email" text={studentInfo.email} />
-                  <Info label="Phone" text={studentInfo.phone} />
-                  <Info label="Id" text={studentInfo.id} />
+                  <Info label="Name" text={studentInfo?.name} />
+                  <Info label="Email" text={studentInfo?.email} />
+                  <Info label="Phone" text={studentInfo?.phone} />
+                  <Info label="Id" text={studentInfo?.id} />
                   <Info
                     label="Joined Date "
                     text={studentInfo?.createAt?.toDate().toLocaleDateString()}
@@ -312,9 +314,9 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
                 </View>
               ) : (
                 <View>
-                  {allMyPresent.map((pdate, i) => (
+                  {allMyPresent?.map((pdate, i) => (
                     <View key={i}>
-                      {pdate.present == "request" ? null : (
+                      {pdate?.present == "request" ? null : (
                         <Text style={styles.infoText}>
                           {pdate?.presentDate?.toDate().toLocaleDateString()}
                         </Text>
