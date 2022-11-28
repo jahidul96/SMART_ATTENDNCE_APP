@@ -23,7 +23,7 @@ const Details = ({ route, navigation }) => {
   const { data, from, docId } = route.params;
 
   // console.log(from);
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("docId", docId;
 
   // delete data functionality
@@ -31,24 +31,24 @@ const Details = ({ route, navigation }) => {
     if (data.email) {
       if (from == "student") {
         await deleteDoc(doc(db, "students", docId));
-        deleteUser(auth.currentUser)
-          .then(() => {
-            console.log("user deleted");
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
+        // deleteUser(auth.currentUser)
+        //   .then(() => {
+        //     console.log("user deleted");
+        //   })
+        //   .catch((error) => {
+        //     console.log(error.message);
+        //   });
         Alert.alert("Student deleted!!!");
         navigation.navigate("studentlist");
       } else {
         await deleteDoc(doc(db, "teachers", docId));
-        deleteUser(auth.currentUser)
-          .then(() => {
-            console.log("user deleted");
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
+        // deleteUser(auth.currentUser)
+        //   .then(() => {
+        //     console.log("user deleted");
+        //   })
+        //   .catch((error) => {
+        //     console.log(error.message);
+        //   });
         Alert.alert("Teacher deleted!!!");
         navigation.navigate("teacherlist");
       }
