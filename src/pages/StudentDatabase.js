@@ -303,13 +303,41 @@ const StdDetails = ({ studentInfo, allMyPresent }) => {
             >
               {tabname == "Student_Details" ? (
                 <View>
-                  <Info label="Name" text={studentInfo?.name} />
-                  <Info label="Email" text={studentInfo?.email} />
-                  <Info label="Phone" text={studentInfo?.phone} />
-                  <Info label="Id" text={studentInfo?.id} />
+                  <Info
+                    label="Name"
+                    text={
+                      studentInfo?.name
+                        ? studentInfo?.name
+                        : "Username (deleted)"
+                    }
+                  />
+                  <Info
+                    label="Email"
+                    text={
+                      studentInfo?.email
+                        ? studentInfo.email
+                        : "user@email.com (deleted)"
+                    }
+                  />
+                  <Info
+                    label="Phone"
+                    text={
+                      studentInfo?.phone
+                        ? studentInfo.phone
+                        : "phonenumber (deleted)"
+                    }
+                  />
+                  <Info
+                    label="Id"
+                    text={studentInfo?.id ? studentInfo.id : "id (deleted)"}
+                  />
                   <Info
                     label="Joined Date "
-                    text={studentInfo?.createAt?.toDate().toLocaleDateString()}
+                    text={
+                      studentInfo?.createAt?.toDate().toLocaleDateString()
+                        ? studentInfo?.createAt?.toDate().toLocaleDateString()
+                        : "date (deleted)"
+                    }
                   />
                 </View>
               ) : (
